@@ -17,3 +17,31 @@ export const Role = {
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const Plan = {
+  FREE: 'FREE',
+  STARTER: 'STARTER',
+  PRO: 'PRO',
+  ENTERPRISE: 'ENTERPRISE'
+} as const
+
+export type Plan = (typeof Plan)[keyof typeof Plan]
+
+
+export const LessonType = {
+  TEXT: 'TEXT',
+  VIDEO: 'VIDEO',
+  QUIZ: 'QUIZ'
+} as const
+
+export type LessonType = (typeof LessonType)[keyof typeof LessonType]
+
+
+export const EnrollmentStatus = {
+  ACTIVE: 'ACTIVE',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type EnrollmentStatus = (typeof EnrollmentStatus)[keyof typeof EnrollmentStatus]
