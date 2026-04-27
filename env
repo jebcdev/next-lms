@@ -1,0 +1,7 @@
+
+
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/next-lms?schema=public"
+
+BETTER_AUTH_SECRET=hWset1luPlIb96FXacO2FxhgGipqSdIh
+
+BETTER_AUTH_URL=http://localhost:3000 # Base URL of your app

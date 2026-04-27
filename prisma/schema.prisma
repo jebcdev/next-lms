@@ -1,0 +1,261 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Tenant {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique // Subdominio: empresa.nextlms.com
+  logo      String?
+  plan      Plan     @default(FREE)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  users   User[]
+  courses Course[]
+
+  @@map("tenants")
+}
+
+// Planes de suscripción
+enum Plan {
+  FREE
+  STARTER
+  PRO
+  ENTERPRISE
+}
+
+// Roles de usuario
+enum Role {
+  SUPER_ADMIN // Admin de la plataforma
+  ADMIN // Admin del tenant
+  INSTRUCTOR // Creador de cursos
+  STUDENT // Estudiante
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean   @default(false) @map("email_verified")
+  image         String?
+  role          Role      @default(STUDENT) @map("role")
+  isActive      Boolean   @default(true) @map("is_active")
+  banned        Boolean?  @default(false) @map("banned")
+  banReason     String?   @map("ban_reason")
+  banExpires    DateTime? @map("ban_expires")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  sessions Session[]
+  accounts Account[]
+
+  // customerProfile CustomerProfile?
+  // addresses       Address[]
+  // orders          Order[]
+  tenant       Tenant?      @relation(fields: [tenantId], references: [id])
+  tenantId     String?
+  courses      Course[]
+  enrollments  Enrollment[]
+  coursesOwned Course[]     @relation("CourseOwner")
+
+  @@unique([email])
+  @@map("users")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime @map("expires_at")
+  token     String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  ipAddress String?  @map("ip_address")
+  userAgent String?  @map("user_agent")
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("sessions")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String    @map("account_id")
+  providerId            String    @map("provider_id")
+  userId                String    @map("user_id")
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?   @map("access_token")
+  refreshToken          String?   @map("refresh_token")
+  idToken               String?   @map("id_token")
+  accessTokenExpiresAt  DateTime? @map("access_token_expires_at")
+  refreshTokenExpiresAt DateTime? @map("refresh_token_expires_at")
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@map("accounts")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime @map("expires_at")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@index([identifier])
+  @@map("verifications")
+}
+
+// Curso
+model Course {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String
+  description String?  @db.Text
+  thumbnail   String?
+  price       Decimal? @db.Decimal(10, 2)
+  isPublished Boolean  @default(false)
+  isFree      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Multi-tenant
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  // Propietario/Instructor
+  ownerId String
+  owner   User   @relation("CourseOwner", fields: [ownerId], references: [id])
+
+  // Relaciones
+  modules     Module[]
+  enrollments Enrollment[]
+  categories  CategoriesOnCourses[]
+  user        User?                 @relation(fields: [userId], references: [id])
+  userId      String?
+
+  @@unique([tenantId, slug])
+  @@map("courses")
+}
+
+// Módulo de un curso
+model Module {
+  id        String   @id @default(cuid())
+  title     String
+  position  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  lessons Lesson[]
+
+  @@map("modules")
+}
+
+// Lección de un módulo
+model Lesson {
+  id          String     @id @default(cuid())
+  title       String
+  content     String?    @db.Text
+  videoUrl    String?
+  position    Int
+  type        LessonType @default(TEXT)
+  isFree      Boolean    @default(false)
+  isPublished Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  moduleId String
+  module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  progress LessonProgress[]
+
+  @@map("lessons")
+}
+
+enum LessonType {
+  TEXT
+  VIDEO
+  QUIZ
+}
+
+// Categoría
+model Category {
+  id      String                @id @default(cuid())
+  name    String                @unique
+  slug    String                @unique
+  courses CategoriesOnCourses[]
+
+  @@map("categories")
+}
+
+// Relación muchos a muchos: Cursos <-> Categorías
+model CategoriesOnCourses {
+  courseId   String
+  categoryId String
+  course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([courseId, categoryId])
+  @@map("categories_on_courses")
+}
+
+// Inscripción a un curso
+model Enrollment {
+  id        String           @id @default(cuid())
+  status    EnrollmentStatus @default(ACTIVE)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  progress LessonProgress[]
+
+  @@unique([userId, courseId])
+  @@map("enrollments")
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+// Progreso de lección
+model LessonProgress {
+  id          String    @id @default(cuid())
+  isCompleted Boolean   @default(false)
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  enrollmentId String
+  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  lessonId     String
+  lesson       Lesson     @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([enrollmentId, lessonId])
+  @@map("lesson_progress")
+}
