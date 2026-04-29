@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import {
     StudentLoginSchema,
     StudentLoginData,
-} from "@/features/auth/validations/students.schema";
+} from "@/features/auth/validations/students";
 import { Role } from "@/generated/prisma/enums";
 import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";

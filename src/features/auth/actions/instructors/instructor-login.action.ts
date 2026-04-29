@@ -3,9 +3,9 @@
 import { auth, User } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import {
-    SuperAdminLoginSchema,
-    SuperAdminLoginData,
-} from "@/features/auth/validations/super-admins.schema";
+    InstructorLoginSchema,
+    InstructorLoginData,
+} from "@/features/auth/validations/instructors";
 import { Role } from "@/generated/prisma/enums";
 import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
@@ -16,11 +16,12 @@ const connectionString = `${process.env.DATABASE_URL}`;
 const adapter = new PrismaPg({ connectionString });
 const prismaDB = new PrismaClient({ adapter });
 
-export const superAdminLoginAction = async (
-    currentUser: SuperAdminLoginData,
+export const instructorLoginAction = async (
+    currentUser: InstructorLoginData,
 ): Promise<IGeneralResponse<User>> => {
     try {
-        const validatedData = SuperAdminLoginSchema.safeParse(currentUser);
+        const validatedData =
+            InstructorLoginSchema.safeParse(currentUser);
 
         if (!validatedData.success)
             return {
@@ -29,11 +30,12 @@ export const superAdminLoginAction = async (
                 message: "La información proporcionada no es válida",
             };
 
-        if (validatedData.data.role !== Role.SUPER_ADMIN)
+        if (validatedData.data.role !== Role.INSTRUCTOR)
             return {
                 success: false,
                 error: true,
-                message: "No tienes permiso para acceder como super admin",
+                message:
+                    "No tienes permiso para acceder como instructor",
             };
 
         const userExists = await prismaDB.user.findUnique({
@@ -56,11 +58,12 @@ export const superAdminLoginAction = async (
                 message: "La cuenta de usuario no está activa",
             };
 
-        if (userExists.role !== Role.SUPER_ADMIN)
+        if (userExists.role !== Role.INSTRUCTOR)
             return {
                 success: false,
                 error: true,
-                message: "No tienes permiso para acceder como super admin",
+                message:
+                    "No tienes permiso para acceder como instructor",
             };
 
         const loggedInUser = await auth.api.signInEmail({

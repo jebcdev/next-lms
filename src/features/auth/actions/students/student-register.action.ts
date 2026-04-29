@@ -3,9 +3,9 @@
 import { auth, User } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import {
-    AdminLoginSchema,
-    AdminLoginData,
-} from "@/features/auth/validations/admins.schema";
+    StudentRegisterSchema,
+    StudentRegisterData,
+} from "@/features/auth/validations/students";
 import { Role } from "@/generated/prisma/enums";
 import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
@@ -16,74 +16,81 @@ const connectionString = `${process.env.DATABASE_URL}`;
 const adapter = new PrismaPg({ connectionString });
 const prismaDB = new PrismaClient({ adapter });
 
-export const adminLoginAction = async (
-    currentUser: AdminLoginData,
+export const studentRegisterAction = async (
+    data: StudentRegisterData,
 ): Promise<IGeneralResponse<User>> => {
     try {
-        const validatedData = AdminLoginSchema.safeParse(currentUser);
+        const validatedData = StudentRegisterSchema.safeParse(data);
 
-        if (!validatedData.success)
+        if (!validatedData.success) {
             return {
                 success: false,
                 error: true,
                 message: "La información proporcionada no es válida",
             };
+        }
 
-        if (validatedData.data.role !== Role.ADMIN)
+        const tenant = await prismaDB.tenant.findUnique({
+            where: { id: validatedData.data.tenantId },
+        });
+
+        if (!tenant) {
             return {
                 success: false,
                 error: true,
-                message: "No tienes permiso para acceder como admin",
+                message: "La organización no existe",
             };
+        }
 
-        const userExists = await prismaDB.user.findUnique({
-            where: {
+        if (!tenant.isActive) {
+            return {
+                success: false,
+                error: true,
+                message: "La organización no está activa",
+            };
+        }
+
+        const existingUser = await prismaDB.user.findUnique({
+            where: { email: validatedData.data.email },
+        });
+
+        if (existingUser) {
+            return {
+                success: false,
+                error: true,
+                message: "El email ya está en uso",
+            };
+        }
+
+        const newUser = await auth.api.signUpEmail({
+            body: {
+                name: validatedData.data.name,
                 email: validatedData.data.email,
+                password: validatedData.data.password,
             },
         });
 
-        if (!userExists)
-            return {
-                success: false,
-                error: true,
-                message: "El email o la contraseña son incorrectos",
-            };
-
-        if (!userExists.isActive)
-            return {
-                success: false,
-                error: true,
-                message: "La cuenta de usuario no está activa",
-            };
-
-        if (userExists.role !== Role.ADMIN)
-            return {
-                success: false,
-                error: true,
-                message: "No tienes permiso para acceder como admin",
-            };
-
-        const loggedInUser = await auth.api.signInEmail({
-            body: {
-                email: validatedData.data.email,
-                password: validatedData.data.password,
-                callbackURL: process.env.NEXT_PUBLIC_APP_URL!,
+        await prismaDB.user.update({
+            where: { id: newUser.user.id },
+            data: {
+                role: Role.STUDENT,
+                isActive: true,
+                tenantId: validatedData.data.tenantId,
             },
-            headers: await headers(),
         });
 
         return {
             success: true,
             error: false,
-            message: "Usuario iniciado sesión exitosamente",
-            data: loggedInUser.user,
+            message: "Estudiante registrado exitosamente",
+            data: newUser.user,
         };
     } catch (error) {
         consoleLogger({ error });
         return {
             success: false,
             error: true,
-            message: "Error al iniciar sesión, intenta nuevamente",
+            message: "Error al registrar estudiante",
         };
     }
 };

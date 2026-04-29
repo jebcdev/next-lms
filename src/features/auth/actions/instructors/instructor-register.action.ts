@@ -1,11 +1,11 @@
 "use server";
 
 import { auth, User } from "@/lib/auth/auth";
-import { headers } from "next/headers";
+// import { headers } from "next/headers";
 import {
-    InstructorLoginSchema,
-    InstructorLoginData,
-} from "@/features/auth/validations/instructors.schema";
+    InstructorRegisterSchema,
+    InstructorRegisterData,
+} from "@/features/auth/validations/instructors";
 import { Role } from "@/generated/prisma/enums";
 import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
@@ -16,77 +16,81 @@ const connectionString = `${process.env.DATABASE_URL}`;
 const adapter = new PrismaPg({ connectionString });
 const prismaDB = new PrismaClient({ adapter });
 
-export const instructorLoginAction = async (
-    currentUser: InstructorLoginData,
+export const instructorRegisterAction = async (
+    data: InstructorRegisterData,
 ): Promise<IGeneralResponse<User>> => {
     try {
-        const validatedData =
-            InstructorLoginSchema.safeParse(currentUser);
+        const validatedData = InstructorRegisterSchema.safeParse(data);
 
-        if (!validatedData.success)
+        if (!validatedData.success) {
             return {
                 success: false,
                 error: true,
                 message: "La información proporcionada no es válida",
             };
+        }
 
-        if (validatedData.data.role !== Role.INSTRUCTOR)
+        const tenant = await prismaDB.tenant.findUnique({
+            where: { id: validatedData.data.tenantId },
+        });
+
+        if (!tenant) {
             return {
                 success: false,
                 error: true,
-                message:
-                    "No tienes permiso para acceder como instructor",
+                message: "La organización no existe",
             };
+        }
 
-        const userExists = await prismaDB.user.findUnique({
-            where: {
+        if (!tenant.isActive) {
+            return {
+                success: false,
+                error: true,
+                message: "La organización no está activa",
+            };
+        }
+
+        const existingUser = await prismaDB.user.findUnique({
+            where: { email: validatedData.data.email },
+        });
+
+        if (existingUser) {
+            return {
+                success: false,
+                error: true,
+                message: "El email ya está en uso",
+            };
+        }
+
+        const newUser = await auth.api.signUpEmail({
+            body: {
+                name: validatedData.data.name,
                 email: validatedData.data.email,
+                password: validatedData.data.password,
             },
         });
 
-        if (!userExists)
-            return {
-                success: false,
-                error: true,
-                message: "El email o la contraseña son incorrectos",
-            };
-
-        if (!userExists.isActive)
-            return {
-                success: false,
-                error: true,
-                message: "La cuenta de usuario no está activa",
-            };
-
-        if (userExists.role !== Role.INSTRUCTOR)
-            return {
-                success: false,
-                error: true,
-                message:
-                    "No tienes permiso para acceder como instructor",
-            };
-
-        const loggedInUser = await auth.api.signInEmail({
-            body: {
-                email: validatedData.data.email,
-                password: validatedData.data.password,
-                callbackURL: process.env.NEXT_PUBLIC_APP_URL!,
+        await prismaDB.user.update({
+            where: { id: newUser.user.id },
+            data: {
+                role: Role.INSTRUCTOR,
+                isActive: true,
+                tenantId: validatedData.data.tenantId,
             },
-            headers: await headers(),
         });
 
         return {
             success: true,
             error: false,
-            message: "Usuario iniciado sesión exitosamente",
-            data: loggedInUser.user,
+            message: "Instructor registrado exitosamente",
+            data: newUser.user,
         };
     } catch (error) {
         consoleLogger({ error });
         return {
             success: false,
             error: true,
-            message: "Error al iniciar sesión, intenta nuevamente",
+            message: "Error al registrar instructor",
         };
     }
 };

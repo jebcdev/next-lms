@@ -1,14 +1,10 @@
 import z from "zod";
 import { Role } from "@/generated/prisma/enums";
 
-export const AdminLoginSchema = z.object({
-    role: z
-        .nativeEnum(Role, {
-            error: "Rol inválido",
-        })
-        .refine((val) => val === Role.ADMIN, {
-            error: "El rol debe ser ADMIN",
-        }),
+export const StudentLoginSchema = z.object({
+    role: z.literal(Role.STUDENT, {
+        error: "El rol debe ser STUDENT",
+    }),
 
     email: z
         .string({ error: "El email es requerido" })
@@ -21,4 +17,4 @@ export const AdminLoginSchema = z.object({
         .min(8, { error: "Mínimo 8 caracteres" }),
 });
 
-export type AdminLoginData = z.infer<typeof AdminLoginSchema>;
+export type StudentLoginData = z.infer<typeof StudentLoginSchema>;

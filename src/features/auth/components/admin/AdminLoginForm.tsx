@@ -4,14 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
     AdminLoginData,
     AdminLoginSchema,
-} from "../../validations/admins.schema";
+} from "../../validations/admins";
 import {
     SingleFormError,
     Input,
     Label,
     Button,
 } from "@/features/shared/components";
-import { adminLoginAction } from "../../actions/admin-login.action";
+import { adminLoginAction } from "../../actions/admins/admin-login.action";
 import { toast } from "sonner";
 import { consoleLogger } from "@/lib/logger/console-logger";
 import { useRouter } from "next/navigation";

@@ -2,11 +2,9 @@ import z from "zod";
 import { Role } from "@/generated/prisma/enums";
 
 export const InstructorLoginSchema = z.object({
-    role: z.nativeEnum(Role, {
-        error: "Rol inválido",
-    })      .refine((val) => val === Role.INSTRUCTOR, {
-            error: "El rol debe ser INSTRUCTOR",
-        }),
+    role: z.literal(Role.INSTRUCTOR, {
+        error: "El rol debe ser INSTRUCTOR",
+    }),
 
     email: z
         .string({ error: "El email es requerido" })

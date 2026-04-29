@@ -4,14 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
     StudentLoginData,
     StudentLoginSchema,
-} from "../../validations/students.schema";
+} from "../../validations/students";
 import {
     SingleFormError,
     Input,
     Label,
     Button,
 } from "@/features/shared/components";
-import { studentLoginAction } from "../../actions/student-login.action";
+import { studentLoginAction } from "../../actions/students/student-login.action";
 import { toast } from "sonner";
 import { consoleLogger } from "@/lib/logger/console-logger";
 import { useRouter } from "next/navigation";
@@ -50,9 +50,14 @@ export const StudentLoginForm = () => {
 
             const response = await studentLoginAction(data);
 
-            if (!response.success || !response.data || response.error) {
+            if (
+                !response.success ||
+                !response.data ||
+                response.error
+            ) {
                 toast.error(
-                    response.message || "Error en el inicio de sesión. Por favor, inténtalo de nuevo.",
+                    response.message ||
+                        "Error en el inicio de sesión. Por favor, inténtalo de nuevo.",
                     {
                         description:
                             "Si el problema persiste, contacta al soporte.",
@@ -67,12 +72,12 @@ export const StudentLoginForm = () => {
             }
 
             toast.success("¡Inicio de sesión exitoso!", {
-              description: `Bienvenido de nuevo, ${response.data?.name || "estudiante"}!`,
-                 
-                        action: {
-                            label: "Entendido",
-                            onClick: () => toast.dismiss(),
-                        },
+                description: `Bienvenido de nuevo, ${response.data?.name || "estudiante"}!`,
+
+                action: {
+                    label: "Entendido",
+                    onClick: () => toast.dismiss(),
+                },
             });
 
             router.push("/dashboard/students");
@@ -81,7 +86,8 @@ export const StudentLoginForm = () => {
             toast.error(
                 "Error inesperado. Por favor, inténtalo de nuevo.",
                 {
-                    description: "Si el problema persiste, contacta al soporte.",
+                    description:
+                        "Si el problema persiste, contacta al soporte.",
                     position: "top-left",
                     action: {
                         label: "Entendido",
@@ -95,8 +101,9 @@ export const StudentLoginForm = () => {
     return (
         <>
             <form
-            className="grid gap-4"
-            onSubmit={handleSubmit(onSubmit)}>
+                className="grid gap-4"
+                onSubmit={handleSubmit(onSubmit)}
+            >
                 <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
