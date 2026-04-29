@@ -281,7 +281,6 @@ export type CourseWhereInput = {
   ownerId?: Prisma.StringFilter<"Course"> | string
   userId?: Prisma.StringNullableFilter<"Course"> | string | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   modules?: Prisma.ModuleListRelationFilter
   enrollments?: Prisma.EnrollmentListRelationFilter
   categories?: Prisma.CategoriesOnCoursesListRelationFilter
@@ -303,7 +302,6 @@ export type CourseOrderByWithRelationInput = {
   ownerId?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
-  owner?: Prisma.UserOrderByWithRelationInput
   modules?: Prisma.ModuleOrderByRelationAggregateInput
   enrollments?: Prisma.EnrollmentOrderByRelationAggregateInput
   categories?: Prisma.CategoriesOnCoursesOrderByRelationAggregateInput
@@ -329,7 +327,6 @@ export type CourseWhereUniqueInput = Prisma.AtLeast<{
   ownerId?: Prisma.StringFilter<"Course"> | string
   userId?: Prisma.StringNullableFilter<"Course"> | string | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   modules?: Prisma.ModuleListRelationFilter
   enrollments?: Prisma.EnrollmentListRelationFilter
   categories?: Prisma.CategoriesOnCoursesListRelationFilter
@@ -387,8 +384,8 @@ export type CourseCreateInput = {
   isFree?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  ownerId: string
   tenant: Prisma.TenantCreateNestedOneWithoutCoursesInput
-  owner: Prisma.UserCreateNestedOneWithoutCoursesOwnedInput
   modules?: Prisma.ModuleCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
   categories?: Prisma.CategoriesOnCoursesCreateNestedManyWithoutCourseInput
@@ -425,8 +422,8 @@ export type CourseUpdateInput = {
   isFree?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutCoursesNestedInput
-  owner?: Prisma.UserUpdateOneRequiredWithoutCoursesOwnedNestedInput
   modules?: Prisma.ModuleUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
   categories?: Prisma.CategoriesOnCoursesUpdateManyWithoutCourseNestedInput
@@ -479,6 +476,7 @@ export type CourseUpdateManyMutationInput = {
   isFree?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type CourseUncheckedUpdateManyInput = {
@@ -580,24 +578,10 @@ export type CourseCreateNestedManyWithoutUserInput = {
   connect?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
 }
 
-export type CourseCreateNestedManyWithoutOwnerInput = {
-  create?: Prisma.XOR<Prisma.CourseCreateWithoutOwnerInput, Prisma.CourseUncheckedCreateWithoutOwnerInput> | Prisma.CourseCreateWithoutOwnerInput[] | Prisma.CourseUncheckedCreateWithoutOwnerInput[]
-  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutOwnerInput | Prisma.CourseCreateOrConnectWithoutOwnerInput[]
-  createMany?: Prisma.CourseCreateManyOwnerInputEnvelope
-  connect?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
-}
-
 export type CourseUncheckedCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.CourseCreateWithoutUserInput, Prisma.CourseUncheckedCreateWithoutUserInput> | Prisma.CourseCreateWithoutUserInput[] | Prisma.CourseUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.CourseCreateOrConnectWithoutUserInput | Prisma.CourseCreateOrConnectWithoutUserInput[]
   createMany?: Prisma.CourseCreateManyUserInputEnvelope
-  connect?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
-}
-
-export type CourseUncheckedCreateNestedManyWithoutOwnerInput = {
-  create?: Prisma.XOR<Prisma.CourseCreateWithoutOwnerInput, Prisma.CourseUncheckedCreateWithoutOwnerInput> | Prisma.CourseCreateWithoutOwnerInput[] | Prisma.CourseUncheckedCreateWithoutOwnerInput[]
-  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutOwnerInput | Prisma.CourseCreateOrConnectWithoutOwnerInput[]
-  createMany?: Prisma.CourseCreateManyOwnerInputEnvelope
   connect?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
 }
 
@@ -615,20 +599,6 @@ export type CourseUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.CourseScalarWhereInput | Prisma.CourseScalarWhereInput[]
 }
 
-export type CourseUpdateManyWithoutOwnerNestedInput = {
-  create?: Prisma.XOR<Prisma.CourseCreateWithoutOwnerInput, Prisma.CourseUncheckedCreateWithoutOwnerInput> | Prisma.CourseCreateWithoutOwnerInput[] | Prisma.CourseUncheckedCreateWithoutOwnerInput[]
-  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutOwnerInput | Prisma.CourseCreateOrConnectWithoutOwnerInput[]
-  upsert?: Prisma.CourseUpsertWithWhereUniqueWithoutOwnerInput | Prisma.CourseUpsertWithWhereUniqueWithoutOwnerInput[]
-  createMany?: Prisma.CourseCreateManyOwnerInputEnvelope
-  set?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
-  disconnect?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
-  delete?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
-  connect?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
-  update?: Prisma.CourseUpdateWithWhereUniqueWithoutOwnerInput | Prisma.CourseUpdateWithWhereUniqueWithoutOwnerInput[]
-  updateMany?: Prisma.CourseUpdateManyWithWhereWithoutOwnerInput | Prisma.CourseUpdateManyWithWhereWithoutOwnerInput[]
-  deleteMany?: Prisma.CourseScalarWhereInput | Prisma.CourseScalarWhereInput[]
-}
-
 export type CourseUncheckedUpdateManyWithoutUserNestedInput = {
   create?: Prisma.XOR<Prisma.CourseCreateWithoutUserInput, Prisma.CourseUncheckedCreateWithoutUserInput> | Prisma.CourseCreateWithoutUserInput[] | Prisma.CourseUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.CourseCreateOrConnectWithoutUserInput | Prisma.CourseCreateOrConnectWithoutUserInput[]
@@ -640,20 +610,6 @@ export type CourseUncheckedUpdateManyWithoutUserNestedInput = {
   connect?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
   update?: Prisma.CourseUpdateWithWhereUniqueWithoutUserInput | Prisma.CourseUpdateWithWhereUniqueWithoutUserInput[]
   updateMany?: Prisma.CourseUpdateManyWithWhereWithoutUserInput | Prisma.CourseUpdateManyWithWhereWithoutUserInput[]
-  deleteMany?: Prisma.CourseScalarWhereInput | Prisma.CourseScalarWhereInput[]
-}
-
-export type CourseUncheckedUpdateManyWithoutOwnerNestedInput = {
-  create?: Prisma.XOR<Prisma.CourseCreateWithoutOwnerInput, Prisma.CourseUncheckedCreateWithoutOwnerInput> | Prisma.CourseCreateWithoutOwnerInput[] | Prisma.CourseUncheckedCreateWithoutOwnerInput[]
-  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutOwnerInput | Prisma.CourseCreateOrConnectWithoutOwnerInput[]
-  upsert?: Prisma.CourseUpsertWithWhereUniqueWithoutOwnerInput | Prisma.CourseUpsertWithWhereUniqueWithoutOwnerInput[]
-  createMany?: Prisma.CourseCreateManyOwnerInputEnvelope
-  set?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
-  disconnect?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
-  delete?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
-  connect?: Prisma.CourseWhereUniqueInput | Prisma.CourseWhereUniqueInput[]
-  update?: Prisma.CourseUpdateWithWhereUniqueWithoutOwnerInput | Prisma.CourseUpdateWithWhereUniqueWithoutOwnerInput[]
-  updateMany?: Prisma.CourseUpdateManyWithWhereWithoutOwnerInput | Prisma.CourseUpdateManyWithWhereWithoutOwnerInput[]
   deleteMany?: Prisma.CourseScalarWhereInput | Prisma.CourseScalarWhereInput[]
 }
 
@@ -760,8 +716,8 @@ export type CourseCreateWithoutUserInput = {
   isFree?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  ownerId: string
   tenant: Prisma.TenantCreateNestedOneWithoutCoursesInput
-  owner: Prisma.UserCreateNestedOneWithoutCoursesOwnedInput
   modules?: Prisma.ModuleCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
   categories?: Prisma.CategoriesOnCoursesCreateNestedManyWithoutCourseInput
@@ -792,52 +748,6 @@ export type CourseCreateOrConnectWithoutUserInput = {
 
 export type CourseCreateManyUserInputEnvelope = {
   data: Prisma.CourseCreateManyUserInput | Prisma.CourseCreateManyUserInput[]
-  skipDuplicates?: boolean
-}
-
-export type CourseCreateWithoutOwnerInput = {
-  id?: string
-  title: string
-  slug: string
-  description?: string | null
-  thumbnail?: string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  isPublished?: boolean
-  isFree?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCoursesInput
-  modules?: Prisma.ModuleCreateNestedManyWithoutCourseInput
-  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
-  categories?: Prisma.CategoriesOnCoursesCreateNestedManyWithoutCourseInput
-  user?: Prisma.UserCreateNestedOneWithoutCoursesInput
-}
-
-export type CourseUncheckedCreateWithoutOwnerInput = {
-  id?: string
-  title: string
-  slug: string
-  description?: string | null
-  thumbnail?: string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  isPublished?: boolean
-  isFree?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  tenantId: string
-  userId?: string | null
-  modules?: Prisma.ModuleUncheckedCreateNestedManyWithoutCourseInput
-  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
-  categories?: Prisma.CategoriesOnCoursesUncheckedCreateNestedManyWithoutCourseInput
-}
-
-export type CourseCreateOrConnectWithoutOwnerInput = {
-  where: Prisma.CourseWhereUniqueInput
-  create: Prisma.XOR<Prisma.CourseCreateWithoutOwnerInput, Prisma.CourseUncheckedCreateWithoutOwnerInput>
-}
-
-export type CourseCreateManyOwnerInputEnvelope = {
-  data: Prisma.CourseCreateManyOwnerInput | Prisma.CourseCreateManyOwnerInput[]
   skipDuplicates?: boolean
 }
 
@@ -876,22 +786,6 @@ export type CourseScalarWhereInput = {
   userId?: Prisma.StringNullableFilter<"Course"> | string | null
 }
 
-export type CourseUpsertWithWhereUniqueWithoutOwnerInput = {
-  where: Prisma.CourseWhereUniqueInput
-  update: Prisma.XOR<Prisma.CourseUpdateWithoutOwnerInput, Prisma.CourseUncheckedUpdateWithoutOwnerInput>
-  create: Prisma.XOR<Prisma.CourseCreateWithoutOwnerInput, Prisma.CourseUncheckedCreateWithoutOwnerInput>
-}
-
-export type CourseUpdateWithWhereUniqueWithoutOwnerInput = {
-  where: Prisma.CourseWhereUniqueInput
-  data: Prisma.XOR<Prisma.CourseUpdateWithoutOwnerInput, Prisma.CourseUncheckedUpdateWithoutOwnerInput>
-}
-
-export type CourseUpdateManyWithWhereWithoutOwnerInput = {
-  where: Prisma.CourseScalarWhereInput
-  data: Prisma.XOR<Prisma.CourseUpdateManyMutationInput, Prisma.CourseUncheckedUpdateManyWithoutOwnerInput>
-}
-
 export type CourseCreateWithoutTenantInput = {
   id?: string
   title: string
@@ -903,7 +797,7 @@ export type CourseCreateWithoutTenantInput = {
   isFree?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  owner: Prisma.UserCreateNestedOneWithoutCoursesOwnedInput
+  ownerId: string
   modules?: Prisma.ModuleCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
   categories?: Prisma.CategoriesOnCoursesCreateNestedManyWithoutCourseInput
@@ -965,8 +859,8 @@ export type CourseCreateWithoutModulesInput = {
   isFree?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  ownerId: string
   tenant: Prisma.TenantCreateNestedOneWithoutCoursesInput
-  owner: Prisma.UserCreateNestedOneWithoutCoursesOwnedInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
   categories?: Prisma.CategoriesOnCoursesCreateNestedManyWithoutCourseInput
   user?: Prisma.UserCreateNestedOneWithoutCoursesInput
@@ -1017,8 +911,8 @@ export type CourseUpdateWithoutModulesInput = {
   isFree?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutCoursesNestedInput
-  owner?: Prisma.UserUpdateOneRequiredWithoutCoursesOwnedNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
   categories?: Prisma.CategoriesOnCoursesUpdateManyWithoutCourseNestedInput
   user?: Prisma.UserUpdateOneWithoutCoursesNestedInput
@@ -1053,8 +947,8 @@ export type CourseCreateWithoutCategoriesInput = {
   isFree?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  ownerId: string
   tenant: Prisma.TenantCreateNestedOneWithoutCoursesInput
-  owner: Prisma.UserCreateNestedOneWithoutCoursesOwnedInput
   modules?: Prisma.ModuleCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
   user?: Prisma.UserCreateNestedOneWithoutCoursesInput
@@ -1105,8 +999,8 @@ export type CourseUpdateWithoutCategoriesInput = {
   isFree?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutCoursesNestedInput
-  owner?: Prisma.UserUpdateOneRequiredWithoutCoursesOwnedNestedInput
   modules?: Prisma.ModuleUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
   user?: Prisma.UserUpdateOneWithoutCoursesNestedInput
@@ -1141,8 +1035,8 @@ export type CourseCreateWithoutEnrollmentsInput = {
   isFree?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  ownerId: string
   tenant: Prisma.TenantCreateNestedOneWithoutCoursesInput
-  owner: Prisma.UserCreateNestedOneWithoutCoursesOwnedInput
   modules?: Prisma.ModuleCreateNestedManyWithoutCourseInput
   categories?: Prisma.CategoriesOnCoursesCreateNestedManyWithoutCourseInput
   user?: Prisma.UserCreateNestedOneWithoutCoursesInput
@@ -1193,8 +1087,8 @@ export type CourseUpdateWithoutEnrollmentsInput = {
   isFree?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutCoursesNestedInput
-  owner?: Prisma.UserUpdateOneRequiredWithoutCoursesOwnedNestedInput
   modules?: Prisma.ModuleUpdateManyWithoutCourseNestedInput
   categories?: Prisma.CategoriesOnCoursesUpdateManyWithoutCourseNestedInput
   user?: Prisma.UserUpdateOneWithoutCoursesNestedInput
@@ -1233,21 +1127,6 @@ export type CourseCreateManyUserInput = {
   ownerId: string
 }
 
-export type CourseCreateManyOwnerInput = {
-  id?: string
-  title: string
-  slug: string
-  description?: string | null
-  thumbnail?: string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  isPublished?: boolean
-  isFree?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  tenantId: string
-  userId?: string | null
-}
-
 export type CourseUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1259,8 +1138,8 @@ export type CourseUpdateWithoutUserInput = {
   isFree?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutCoursesNestedInput
-  owner?: Prisma.UserUpdateOneRequiredWithoutCoursesOwnedNestedInput
   modules?: Prisma.ModuleUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
   categories?: Prisma.CategoriesOnCoursesUpdateManyWithoutCourseNestedInput
@@ -1299,57 +1178,6 @@ export type CourseUncheckedUpdateManyWithoutUserInput = {
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type CourseUpdateWithoutOwnerInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFree?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCoursesNestedInput
-  modules?: Prisma.ModuleUpdateManyWithoutCourseNestedInput
-  enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
-  categories?: Prisma.CategoriesOnCoursesUpdateManyWithoutCourseNestedInput
-  user?: Prisma.UserUpdateOneWithoutCoursesNestedInput
-}
-
-export type CourseUncheckedUpdateWithoutOwnerInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFree?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modules?: Prisma.ModuleUncheckedUpdateManyWithoutCourseNestedInput
-  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
-  categories?: Prisma.CategoriesOnCoursesUncheckedUpdateManyWithoutCourseNestedInput
-}
-
-export type CourseUncheckedUpdateManyWithoutOwnerInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFree?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
 export type CourseCreateManyTenantInput = {
   id?: string
   title: string
@@ -1376,7 +1204,7 @@ export type CourseUpdateWithoutTenantInput = {
   isFree?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  owner?: Prisma.UserUpdateOneRequiredWithoutCoursesOwnedNestedInput
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   modules?: Prisma.ModuleUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
   categories?: Prisma.CategoriesOnCoursesUpdateManyWithoutCourseNestedInput
@@ -1480,7 +1308,6 @@ export type CourseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   ownerId?: boolean
   userId?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   modules?: boolean | Prisma.Course$modulesArgs<ExtArgs>
   enrollments?: boolean | Prisma.Course$enrollmentsArgs<ExtArgs>
   categories?: boolean | Prisma.Course$categoriesArgs<ExtArgs>
@@ -1503,7 +1330,6 @@ export type CourseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   ownerId?: boolean
   userId?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   user?: boolean | Prisma.Course$userArgs<ExtArgs>
 }, ExtArgs["result"]["course"]>
 
@@ -1522,7 +1348,6 @@ export type CourseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   ownerId?: boolean
   userId?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   user?: boolean | Prisma.Course$userArgs<ExtArgs>
 }, ExtArgs["result"]["course"]>
 
@@ -1545,7 +1370,6 @@ export type CourseSelectScalar = {
 export type CourseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "thumbnail" | "price" | "isPublished" | "isFree" | "createdAt" | "updatedAt" | "tenantId" | "ownerId" | "userId", ExtArgs["result"]["course"]>
 export type CourseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   modules?: boolean | Prisma.Course$modulesArgs<ExtArgs>
   enrollments?: boolean | Prisma.Course$enrollmentsArgs<ExtArgs>
   categories?: boolean | Prisma.Course$categoriesArgs<ExtArgs>
@@ -1554,12 +1378,10 @@ export type CourseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 }
 export type CourseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   user?: boolean | Prisma.Course$userArgs<ExtArgs>
 }
 export type CourseIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   user?: boolean | Prisma.Course$userArgs<ExtArgs>
 }
 
@@ -1567,7 +1389,6 @@ export type $CoursePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "Course"
   objects: {
     tenant: Prisma.$TenantPayload<ExtArgs>
-    owner: Prisma.$UserPayload<ExtArgs>
     modules: Prisma.$ModulePayload<ExtArgs>[]
     enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
     categories: Prisma.$CategoriesOnCoursesPayload<ExtArgs>[]
@@ -1982,7 +1803,6 @@ readonly fields: CourseFieldRefs;
 export interface Prisma__CourseClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  owner<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   modules<T extends Prisma.Course$modulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$modulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ModulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   enrollments<T extends Prisma.Course$enrollmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   categories<T extends Prisma.Course$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CategoriesOnCoursesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>

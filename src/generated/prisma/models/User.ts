@@ -251,7 +251,6 @@ export type UserWhereInput = {
   tenant?: Prisma.XOR<Prisma.TenantNullableScalarRelationFilter, Prisma.TenantWhereInput> | null
   courses?: Prisma.CourseListRelationFilter
   enrollments?: Prisma.EnrollmentListRelationFilter
-  coursesOwned?: Prisma.CourseListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -273,7 +272,6 @@ export type UserOrderByWithRelationInput = {
   tenant?: Prisma.TenantOrderByWithRelationInput
   courses?: Prisma.CourseOrderByRelationAggregateInput
   enrollments?: Prisma.EnrollmentOrderByRelationAggregateInput
-  coursesOwned?: Prisma.CourseOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -298,7 +296,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   tenant?: Prisma.XOR<Prisma.TenantNullableScalarRelationFilter, Prisma.TenantWhereInput> | null
   courses?: Prisma.CourseListRelationFilter
   enrollments?: Prisma.EnrollmentListRelationFilter
-  coursesOwned?: Prisma.CourseListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -357,7 +354,6 @@ export type UserCreateInput = {
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
   courses?: Prisma.CourseCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
-  coursesOwned?: Prisma.CourseCreateNestedManyWithoutOwnerInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -378,7 +374,6 @@ export type UserUncheckedCreateInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
-  coursesOwned?: Prisma.CourseUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type UserUpdateInput = {
@@ -399,7 +394,6 @@ export type UserUpdateInput = {
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
-  coursesOwned?: Prisma.CourseUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -420,7 +414,6 @@ export type UserUncheckedUpdateInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
-  coursesOwned?: Prisma.CourseUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -636,24 +629,10 @@ export type UserUncheckedUpdateManyWithoutTenantNestedInput = {
   deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
-export type UserCreateNestedOneWithoutCoursesOwnedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCoursesOwnedInput, Prisma.UserUncheckedCreateWithoutCoursesOwnedInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCoursesOwnedInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
 export type UserCreateNestedOneWithoutCoursesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutCoursesInput, Prisma.UserUncheckedCreateWithoutCoursesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutCoursesInput
   connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutCoursesOwnedNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCoursesOwnedInput, Prisma.UserUncheckedCreateWithoutCoursesOwnedInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCoursesOwnedInput
-  upsert?: Prisma.UserUpsertWithoutCoursesOwnedInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCoursesOwnedInput, Prisma.UserUpdateWithoutCoursesOwnedInput>, Prisma.UserUncheckedUpdateWithoutCoursesOwnedInput>
 }
 
 export type UserUpdateOneWithoutCoursesNestedInput = {
@@ -697,7 +676,6 @@ export type UserCreateWithoutSessionsInput = {
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
   courses?: Prisma.CourseCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
-  coursesOwned?: Prisma.CourseCreateNestedManyWithoutOwnerInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -717,7 +695,6 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
-  coursesOwned?: Prisma.CourseUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -753,7 +730,6 @@ export type UserUpdateWithoutSessionsInput = {
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
-  coursesOwned?: Prisma.CourseUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -773,7 +749,6 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
-  coursesOwned?: Prisma.CourseUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -793,7 +768,6 @@ export type UserCreateWithoutAccountsInput = {
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
   courses?: Prisma.CourseCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
-  coursesOwned?: Prisma.CourseCreateNestedManyWithoutOwnerInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -813,7 +787,6 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
-  coursesOwned?: Prisma.CourseUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -849,7 +822,6 @@ export type UserUpdateWithoutAccountsInput = {
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
-  coursesOwned?: Prisma.CourseUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -869,7 +841,6 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
-  coursesOwned?: Prisma.CourseUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserCreateWithoutTenantInput = {
@@ -889,7 +860,6 @@ export type UserCreateWithoutTenantInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
-  coursesOwned?: Prisma.CourseCreateNestedManyWithoutOwnerInput
 }
 
 export type UserUncheckedCreateWithoutTenantInput = {
@@ -909,7 +879,6 @@ export type UserUncheckedCreateWithoutTenantInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
-  coursesOwned?: Prisma.CourseUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type UserCreateOrConnectWithoutTenantInput = {
@@ -957,51 +926,6 @@ export type UserScalarWhereInput = {
   tenantId?: Prisma.StringNullableFilter<"User"> | string | null
 }
 
-export type UserCreateWithoutCoursesOwnedInput = {
-  id: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  role?: $Enums.Role
-  isActive?: boolean
-  banned?: boolean | null
-  banReason?: string | null
-  banExpires?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
-  courses?: Prisma.CourseCreateNestedManyWithoutUserInput
-  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutCoursesOwnedInput = {
-  id: string
-  name: string
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  role?: $Enums.Role
-  isActive?: boolean
-  banned?: boolean | null
-  banReason?: string | null
-  banExpires?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  tenantId?: string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUserInput
-  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutCoursesOwnedInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutCoursesOwnedInput, Prisma.UserUncheckedCreateWithoutCoursesOwnedInput>
-}
-
 export type UserCreateWithoutCoursesInput = {
   id: string
   name: string
@@ -1019,7 +943,6 @@ export type UserCreateWithoutCoursesInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
-  coursesOwned?: Prisma.CourseCreateNestedManyWithoutOwnerInput
 }
 
 export type UserUncheckedCreateWithoutCoursesInput = {
@@ -1039,63 +962,11 @@ export type UserUncheckedCreateWithoutCoursesInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
-  coursesOwned?: Prisma.CourseUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type UserCreateOrConnectWithoutCoursesInput = {
   where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutCoursesInput, Prisma.UserUncheckedCreateWithoutCoursesInput>
-}
-
-export type UserUpsertWithoutCoursesOwnedInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutCoursesOwnedInput, Prisma.UserUncheckedUpdateWithoutCoursesOwnedInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutCoursesOwnedInput, Prisma.UserUncheckedCreateWithoutCoursesOwnedInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutCoursesOwnedInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutCoursesOwnedInput, Prisma.UserUncheckedUpdateWithoutCoursesOwnedInput>
-}
-
-export type UserUpdateWithoutCoursesOwnedInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
-  courses?: Prisma.CourseUpdateManyWithoutUserNestedInput
-  enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutCoursesOwnedInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  courses?: Prisma.CourseUncheckedUpdateManyWithoutUserNestedInput
-  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutCoursesInput = {
@@ -1126,7 +997,6 @@ export type UserUpdateWithoutCoursesInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
-  coursesOwned?: Prisma.CourseUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -1146,7 +1016,6 @@ export type UserUncheckedUpdateWithoutCoursesInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
-  coursesOwned?: Prisma.CourseUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserCreateWithoutEnrollmentsInput = {
@@ -1166,7 +1035,6 @@ export type UserCreateWithoutEnrollmentsInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
   courses?: Prisma.CourseCreateNestedManyWithoutUserInput
-  coursesOwned?: Prisma.CourseCreateNestedManyWithoutOwnerInput
 }
 
 export type UserUncheckedCreateWithoutEnrollmentsInput = {
@@ -1186,7 +1054,6 @@ export type UserUncheckedCreateWithoutEnrollmentsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutUserInput
-  coursesOwned?: Prisma.CourseUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type UserCreateOrConnectWithoutEnrollmentsInput = {
@@ -1222,7 +1089,6 @@ export type UserUpdateWithoutEnrollmentsInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUserNestedInput
-  coursesOwned?: Prisma.CourseUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEnrollmentsInput = {
@@ -1242,7 +1108,6 @@ export type UserUncheckedUpdateWithoutEnrollmentsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUserNestedInput
-  coursesOwned?: Prisma.CourseUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserCreateManyTenantInput = {
@@ -1277,7 +1142,6 @@ export type UserUpdateWithoutTenantInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
-  coursesOwned?: Prisma.CourseUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTenantInput = {
@@ -1297,7 +1161,6 @@ export type UserUncheckedUpdateWithoutTenantInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   courses?: Prisma.CourseUncheckedUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
-  coursesOwned?: Prisma.CourseUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutTenantInput = {
@@ -1325,7 +1188,6 @@ export type UserCountOutputType = {
   accounts: number
   courses: number
   enrollments: number
-  coursesOwned: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1333,7 +1195,6 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   courses?: boolean | UserCountOutputTypeCountCoursesArgs
   enrollments?: boolean | UserCountOutputTypeCountEnrollmentsArgs
-  coursesOwned?: boolean | UserCountOutputTypeCountCoursesOwnedArgs
 }
 
 /**
@@ -1374,13 +1235,6 @@ export type UserCountOutputTypeCountEnrollmentsArgs<ExtArgs extends runtime.Type
   where?: Prisma.EnrollmentWhereInput
 }
 
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountCoursesOwnedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CourseWhereInput
-}
-
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1401,7 +1255,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   tenant?: boolean | Prisma.User$tenantArgs<ExtArgs>
   courses?: boolean | Prisma.User$coursesArgs<ExtArgs>
   enrollments?: boolean | Prisma.User$enrollmentsArgs<ExtArgs>
-  coursesOwned?: boolean | Prisma.User$coursesOwnedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1462,7 +1315,6 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   tenant?: boolean | Prisma.User$tenantArgs<ExtArgs>
   courses?: boolean | Prisma.User$coursesArgs<ExtArgs>
   enrollments?: boolean | Prisma.User$enrollmentsArgs<ExtArgs>
-  coursesOwned?: boolean | Prisma.User$coursesOwnedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1480,7 +1332,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     tenant: Prisma.$TenantPayload<ExtArgs> | null
     courses: Prisma.$CoursePayload<ExtArgs>[]
     enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
-    coursesOwned: Prisma.$CoursePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1895,7 +1746,6 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   tenant<T extends Prisma.User$tenantArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$tenantArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   courses<T extends Prisma.User$coursesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   enrollments<T extends Prisma.User$enrollmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  coursesOwned<T extends Prisma.User$coursesOwnedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$coursesOwnedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2451,30 +2301,6 @@ export type User$enrollmentsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.EnrollmentScalarFieldEnum | Prisma.EnrollmentScalarFieldEnum[]
-}
-
-/**
- * User.coursesOwned
- */
-export type User$coursesOwnedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Course
-   */
-  select?: Prisma.CourseSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Course
-   */
-  omit?: Prisma.CourseOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CourseInclude<ExtArgs> | null
-  where?: Prisma.CourseWhereInput
-  orderBy?: Prisma.CourseOrderByWithRelationInput | Prisma.CourseOrderByWithRelationInput[]
-  cursor?: Prisma.CourseWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CourseScalarFieldEnum | Prisma.CourseScalarFieldEnum[]
 }
 
 /**

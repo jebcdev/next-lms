@@ -1,4 +1,4 @@
-import { betterAuth } from "better-auth";
+import { betterAuth, User } from "better-auth";
 import { admin } from "better-auth/plugins";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { PrismaClient } from "@/generated/prisma/client";
@@ -9,7 +9,7 @@ const connectionString = `${process.env.DATABASE_URL}`;
 const adapter = new PrismaPg({ connectionString });
 const prismaDB = new PrismaClient({ adapter });
 
-export const auth = betterAuth({
+const auth = betterAuth({
     database: prismaAdapter(prismaDB, {
         provider: "postgresql",
     }),
@@ -68,3 +68,5 @@ export const auth = betterAuth({
         nextCookies(),
     ],
 });
+
+export { auth,type User };

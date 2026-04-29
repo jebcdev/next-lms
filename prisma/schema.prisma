@@ -40,11 +40,10 @@ model User {
   // customerProfile CustomerProfile?
   // addresses       Address[]
   // orders          Order[]
-  tenant       Tenant?      @relation(fields: [tenantId], references: [id])
-  tenantId     String?
-  courses      Course[]
-  enrollments  Enrollment[]
-  coursesOwned Course[]     @relation("CourseOwner")
+  tenant      Tenant?      @relation(fields: [tenantId], references: [id])
+  tenantId    String?
+  courses     Course[]
+  enrollments Enrollment[]
 
   @@unique([email])
   @@map("users")
@@ -142,7 +141,6 @@ model Course {
 
   // Propietario/Instructor
   ownerId String
-  owner   User   @relation("CourseOwner", fields: [ownerId], references: [id])
 
   // Relaciones
   modules     Module[]
