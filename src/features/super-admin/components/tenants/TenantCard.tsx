@@ -34,7 +34,7 @@ const planLabels = {
   ENTERPRISE: "Enterprise",
 };
 
-export const TenantCard = ({ tenant }: Props) => {
+export const SuperAdminTenantCard = ({ tenant }: Props) => {
   const tenantInitials = tenant.name
     .split(" ")
     .map((n) => n[0])

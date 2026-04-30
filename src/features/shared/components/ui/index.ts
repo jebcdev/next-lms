@@ -31,6 +31,7 @@ export {
     DialogTrigger,
 } from "./dialog";
 export { SingleFormError } from "./form-error";
+export { GeneralGrid, type HeaderAction } from "./GeneralGrid";
 export { Input } from "./input";
 export { Label } from "./label";
 export { MainHeader } from "./MainHeader";
