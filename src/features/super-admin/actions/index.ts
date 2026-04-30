@@ -1,0 +1,1 @@
+export { getAllTenantsSuperAdmin } from "./getAllTenants";

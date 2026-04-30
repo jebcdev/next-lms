@@ -4,7 +4,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import {generateAsyncTitle,generateAsyncDescription} from "@/lib/seo"
 import { Toaster } from "sonner";
-
+import { MainHeader } from "@/features/shared/components/ui";
+import { getSessionDetails } from "@/lib/auth/session-details";
 
 const jetbrainsMono = JetBrains_Mono({subsets:['latin'],variable:'--font-mono'});
 
@@ -25,11 +26,14 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
+  
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { isAuthenticated, isSuperAdmin, isAdmin, isInstructor, isStudent, currentUser } = await getSessionDetails();
+
   return (
     <html
       lang="sn"
@@ -43,6 +47,14 @@ export default function RootLayout({
                         richColors
                         closeButton
                         theme="dark"
+                    />
+                    <MainHeader 
+                        isAuthenticated={isAuthenticated} 
+                        isSuperAdmin={isSuperAdmin}
+                        isAdmin={isAdmin}
+                        isInstructor={isInstructor}
+                        isStudent={isStudent}
+                        currentUser={currentUser} 
                     />
         {children}</body>
     </html>

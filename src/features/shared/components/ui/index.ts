@@ -33,6 +33,7 @@ export {
 export { SingleFormError } from "./form-error";
 export { Input } from "./input";
 export { Label } from "./label";
+export { MainHeader } from "./MainHeader";
 export { NoData } from "./no-data";
 export {
     Select,

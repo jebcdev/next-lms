@@ -1,4 +1,4 @@
-export { PublicHeader } from "./PublicHeader";
+
 export {
     Avatar,
     AvatarImage,
