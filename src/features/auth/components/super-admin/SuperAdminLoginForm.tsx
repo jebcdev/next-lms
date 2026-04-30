@@ -32,7 +32,8 @@ export const SuperAdminLoginForm = () => {
 
     const onSubmit = async (data: SuperAdminLoginData) => {
         try {
-            const validatedData = SuperAdminLoginSchema.safeParse(data);
+            const validatedData =
+                SuperAdminLoginSchema.safeParse(data);
             if (!validatedData.success) {
                 return toast.error(
                     "La información proporcionada no es válida. Por favor, revisa los campos e inténtalo de nuevo.",
@@ -50,9 +51,14 @@ export const SuperAdminLoginForm = () => {
 
             const response = await superAdminLoginAction(data);
 
-            if (!response.success || !response.data || response.error) {
+            if (
+                !response.success ||
+                !response.data ||
+                response.error
+            ) {
                 toast.error(
-                    response.message || "Error en el inicio de sesión. Por favor, inténtalo de nuevo.",
+                    response.message ||
+                        "Error en el inicio de sesión. Por favor, inténtalo de nuevo.",
                     {
                         description:
                             "Si el problema persiste, contacta al soporte.",
@@ -80,7 +86,8 @@ export const SuperAdminLoginForm = () => {
             toast.error(
                 "Error inesperado. Por favor, inténtalo de nuevo.",
                 {
-                    description: "Si el problema persiste, contacta al soporte.",
+                    description:
+                        "Si el problema persiste, contacta al soporte.",
                     position: "top-left",
                     action: {
                         label: "Entendido",
@@ -95,7 +102,8 @@ export const SuperAdminLoginForm = () => {
         <>
             <form
                 className="grid gap-4"
-                onSubmit={handleSubmit(onSubmit)}>
+                onSubmit={handleSubmit(onSubmit)}
+            >
                 <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
