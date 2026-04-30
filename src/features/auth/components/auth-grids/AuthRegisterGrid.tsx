@@ -4,29 +4,36 @@ import { useState } from "react";
 import { Role } from "@/generated/prisma/enums";
 import { getRoleLabel } from "@/lib/utils/enums-labels";
 import { Button } from "@/features/shared/components/ui/button";
-import {
-    SuperAdminRegisterForm,
-} from "../super-admin";
 import { AdminRegisterForm } from "../admin";
 import { InstructorRegisterForm } from "../instructor";
 import { StudentRegisterForm } from "../student";
 
-const ROLES = [Role.STUDENT, Role.INSTRUCTOR, Role.ADMIN, Role.SUPER_ADMIN];
+const ROLES = [Role.STUDENT, Role.INSTRUCTOR, Role.ADMIN];
 
-interface AuthRegisterGridProps {
-    tenantId: string;
+interface Props {
+    tenants: {
+        id: string;
+        name: string;
+    }[];
 }
 
-export const AuthRegisterGrid = ({ tenantId }: AuthRegisterGridProps) => {
-    const [selectedRole, setSelectedRole] = useState<Role>(Role.STUDENT);
+export const AuthRegisterGrid = ({ tenants }: Props) => {
+    const [selectedRole, setSelectedRole] = useState<Role>(
+        Role.STUDENT,
+    );
 
     return (
+        <>
         <div className="space-y-6">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {ROLES.map((role) => (
                     <Button
                         key={role}
-                        variant={selectedRole === role ? "default" : "outline"}
+                        variant={
+                            selectedRole === role
+                                ? "default"
+                                : "outline"
+                        }
                         onClick={() => setSelectedRole(role)}
                         className="w-full"
                     >
@@ -34,17 +41,16 @@ export const AuthRegisterGrid = ({ tenantId }: AuthRegisterGridProps) => {
                     </Button>
                 ))}
             </div>
-
             <div className="border rounded-lg p-4">
-                {selectedRole === Role.SUPER_ADMIN && <SuperAdminRegisterForm />}
                 {selectedRole === Role.ADMIN && <AdminRegisterForm />}
                 {selectedRole === Role.INSTRUCTOR && (
-                    <InstructorRegisterForm tenantId={tenantId} />
+                    <InstructorRegisterForm tenants={tenants} />
                 )}
                 {selectedRole === Role.STUDENT && (
-                    <StudentRegisterForm tenantId={tenantId} />
+                    <StudentRegisterForm tenants={tenants} />
                 )}
             </div>
         </div>
+        </>
     );
 };

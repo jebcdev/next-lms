@@ -16,13 +16,14 @@ import { toast } from "sonner";
 import { consoleLogger } from "@/lib/logger/console-logger";
 import { useRouter } from "next/navigation";
 
-interface InstructorRegisterFormProps {
-    tenantId: string;
+interface Props {
+    tenants: {
+        id: string;
+        name: string;
+    }[];
 }
 
-export const InstructorRegisterForm = ({
-    tenantId,
-}: InstructorRegisterFormProps) => {
+export const InstructorRegisterForm = ({ tenants }: Props) => {
     const router = useRouter();
     const {
         register,
@@ -32,7 +33,7 @@ export const InstructorRegisterForm = ({
         resolver: zodResolver(InstructorRegisterSchema),
         mode: "onBlur",
         defaultValues: {
-            tenantId,
+            
         },
     });
 
@@ -89,6 +90,22 @@ export const InstructorRegisterForm = ({
     return (
         <>
             <form className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
+                <div className="grid gap-2">
+                    <Label htmlFor="tenantId">Institución</Label>
+                    <select
+                        id="tenantId"
+                        className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        {...register("tenantId")}
+                    >
+                        <option value="">Selecciona una institución</option>
+                        {tenants.map((tenant) => (
+                            <option key={tenant.id} value={tenant.id}>
+                                {tenant.name}
+                            </option>
+                        ))}
+                    </select>
+                    <SingleFormError message={errors.tenantId?.message} />
+                </div>
                 <div className="grid gap-2">
                     <Label htmlFor="name">Nombre</Label>
                     <Input

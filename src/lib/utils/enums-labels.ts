@@ -4,7 +4,7 @@ import { Role, Plan, LessonType, EnrollmentStatus } from "@/generated/prisma/enu
 
 const ROLE_LABELS: Record<Role, string> = {
     [Role.SUPER_ADMIN]: "Super Admin",
-    [Role.ADMIN]: "Administrador",
+    [Role.ADMIN]: "Institución",
     [Role.INSTRUCTOR]: "Instructor",
     [Role.STUDENT]: "Estudiante",
 };
